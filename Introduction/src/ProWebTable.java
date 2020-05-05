@@ -41,6 +41,7 @@ public class ProWebTable {
 			}
 			
 		}
+		
 		//clicking on cancel button
 		driver.findElement(By.xpath("/html[1]/body[1]/section[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[6]/user-click-select[1]/div[2]/cancel-click[1]/button[1]")).click();
 		//delete button 

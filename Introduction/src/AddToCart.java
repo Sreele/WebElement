@@ -2,9 +2,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class AddToCart {
     //add to cart test automation
@@ -12,16 +15,22 @@ public class AddToCart {
 		// TODO Auto-generated method stub
 		System.setProperty("webdriver.chrome.driver", "C:\\Users\\GAVSLTPBCP\\Downloads\\chromedriver_win32\\chromedriver.exe");
 		WebDriver driver= new ChromeDriver();
-		int j=0;
+		//implicit wait
+	    driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
 		//declaring string array 
 		String[] vegetbles= {"Cucumber","Brocolli","Beetroot"};
 		driver.get("https://rahulshettyacademy.com/seleniumPractise/#/");// loading WebSite
-		Thread.sleep(2000);
 		driver.manage().window().maximize();//maximize window
+		AddToTheCart(driver,vegetbles);
 		
-		//listing all webElement having CSS product-name
-        List<WebElement> products=driver.findElements(By.cssSelector("h4.product-name"));
+		
+		
+       }
+	public static void AddToTheCart(WebDriver driver,String[] vegetbles) throws InterruptedException {
+		
+        List<WebElement> products=driver.findElements(By.cssSelector("h4.product-name"));//listing all webElement having CSS product-name
         
+    	int j=0;
         //iterating through the list elements
         for( int i=0;i<products.size();i++) {
         	
@@ -51,10 +60,12 @@ public class AddToCart {
         
         driver.findElement(By.xpath("//a[@class='cart-icon']//img[contains(@class,'')]")).click();
         driver.findElement(By.xpath("//div[@class='action-block']//button[contains(text(),'PROCEED TO CHECKOUT')]")).click();
-        Thread.sleep(1000);
-        driver.close();
-        
-
+        driver.findElement(By.cssSelector("input.promoCode")).sendKeys("rahulshettyacademy");
+        driver.findElement(By.cssSelector("button.promoBtn")).click();
+        //explicit wait
+        WebDriverWait w=new WebDriverWait(driver,5);
+        w.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("span.promoinfo")));
+        System.out.println(driver.findElement(By.cssSelector("span.promoinfo")).getText());
 	}
 
 }
